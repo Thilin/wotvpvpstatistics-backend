@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @Data
 public class VisionCardResponseDTO {
 
-    @Schema(description = "Job id", example = "1")
+    @Schema(description = "VisionCard id", example = "1")
     private Long id;
-    @Schema(description = "Job description", example = "Lord")
+    @Schema(description = "VisionCard description", example = "Lord")
     private String name;
-    @Schema(description = "Job image", example = "Lord.png")
+    @Schema(description = "VisionCard image", example = "Lord.png")
     private String image;
 }
