@@ -2,7 +2,6 @@ package com.mxh.wotvpvpstatisticsbackend.services.impl;
 
 import com.mxh.wotvpvpstatisticsbackend.dtos.ElementResponseDTO;
 import com.mxh.wotvpvpstatisticsbackend.exceptions.ObjectNotFoundException;
-import com.mxh.wotvpvpstatisticsbackend.models.Element;
 import com.mxh.wotvpvpstatisticsbackend.repositories.ElementRepository;
 import com.mxh.wotvpvpstatisticsbackend.services.ElementService;
 import org.springframework.stereotype.Service;
