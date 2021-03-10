@@ -26,4 +26,13 @@ public class ErrorHandlerException extends ResponseEntityExceptionHandler {
         Error errors = createErrorBuilder(status, errorType, msg).build();
         return handleExceptionInternal(ex, errors, new HttpHeaders(), status, request);
     }
+
+    @ExceptionHandler(EmailDuplicatedException.class)
+    public ResponseEntity<Object> handleException(EmailDuplicatedException ex, WebRequest request){
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        ExceptionEnum errorType = ExceptionEnum.EMAIL_DUPLICATED;
+        String msg = ex.getMessage();
+        Error errors = createErrorBuilder(status, errorType, msg).build();
+        return handleExceptionInternal(ex, errors, new HttpHeaders(), status, request);
+    }
 }
