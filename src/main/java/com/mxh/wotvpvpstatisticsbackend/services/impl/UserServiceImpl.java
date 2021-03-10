@@ -5,6 +5,7 @@ import com.mxh.wotvpvpstatisticsbackend.dtos.UserResponseDTO;
 import com.mxh.wotvpvpstatisticsbackend.models.User;
 import com.mxh.wotvpvpstatisticsbackend.repositories.UserRepository;
 import com.mxh.wotvpvpstatisticsbackend.services.UserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,8 +13,11 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
-    UserServiceImpl(UserRepository userRepository){
+    private PasswordEncoder passwordEncoder;
+
+    UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -22,7 +26,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(dto.getEmail());
         user.setName(dto.getName());
         user.setNickName(dto.getNickName());
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
         userRepository.save(user);
         var responseDTO = new UserResponseDTO();
