@@ -1,6 +1,7 @@
 package com.mxh.wotvpvpstatisticsbackend.services.impl;
 
 import com.mxh.wotvpvpstatisticsbackend.dtos.CharacterBuiltCreateDTO;
+import com.mxh.wotvpvpstatisticsbackend.dtos.CharacterBuiltResponseDTO;
 import com.mxh.wotvpvpstatisticsbackend.exceptions.ObjectNotFoundException;
 import com.mxh.wotvpvpstatisticsbackend.models.CharacterBuilt;
 import com.mxh.wotvpvpstatisticsbackend.models.CharacterBuiltEquipment;
@@ -9,6 +10,9 @@ import com.mxh.wotvpvpstatisticsbackend.models.CharacterBuiltSupportAbility;
 import com.mxh.wotvpvpstatisticsbackend.repositories.*;
 import com.mxh.wotvpvpstatisticsbackend.services.CharacterBuiltService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CharacterBuiltServiceImpl implements CharacterBuiltService {
@@ -89,5 +93,20 @@ public class CharacterBuiltServiceImpl implements CharacterBuiltService {
 
 
         return characterBuilt.getId();
+    }
+
+    @Override
+    public CharacterBuiltResponseDTO findById(Long id) {
+        var characterBuilt = characterBuiltRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Characterbuilt não encontrado"));
+        var dto = new CharacterBuiltResponseDTO();
+        dto.setId(characterBuilt.getId());
+        dto.setName(characterBuilt.getName());
+        dto.setCharacter(characterBuilt.getCharacter().getName());
+        dto.setEsper(characterBuilt.getEsper().getName());
+        dto.setVisionCard(characterBuilt.getVisionCard().getName());
+        dto.setReaction(characterBuilt.getReaction().getDescription());
+
+        List<CharacterBuiltJob> characterBuiltJobs = characterBuiltJobRepository.findByCharacterBuiltId(characterBuilt.getId());
+        return dto;
     }
 }
