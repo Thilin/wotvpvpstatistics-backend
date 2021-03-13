@@ -20,4 +20,6 @@ public class CharacterBuiltResponseDTO {
     private String visionCard;
     private String reaction;
     private List<JobResponseDTO> jobs;
+    private List<EquipmentResponseDTO> equipments;
+    private List<SupportAbilityResponseDTO> supportAbilities;
 }

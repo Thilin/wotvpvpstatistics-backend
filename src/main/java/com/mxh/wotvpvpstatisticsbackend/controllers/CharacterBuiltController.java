@@ -2,7 +2,6 @@ package com.mxh.wotvpvpstatisticsbackend.controllers;
 
 import com.mxh.wotvpvpstatisticsbackend.dtos.CharacterBuiltCreateDTO;
 import com.mxh.wotvpvpstatisticsbackend.dtos.CharacterBuiltResponseDTO;
-import com.mxh.wotvpvpstatisticsbackend.dtos.CharacterResponseDTO;
 import com.mxh.wotvpvpstatisticsbackend.services.CharacterBuiltService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/builder")
@@ -40,5 +40,11 @@ public class CharacterBuiltController {
         else {
             return ResponseEntity.ok().body(dto);
         }
+    }
+
+    @GetMapping(value = "/all/user/{id}", produces = "application/json")
+    @Operation(summary = "show all characterBuilt by user Id", description = "Show all character builds informations by user Id")
+    public ResponseEntity<List<CharacterBuiltResponseDTO>> findAll(@PathVariable Long id){
+        return ResponseEntity.ok().body(characterBuiltService.findAllByUserId(id));
     }
 }

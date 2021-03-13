@@ -19,7 +19,7 @@ public class CharacterBuiltSupportAbility {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "CSH_CHB_ID")
+    @JoinColumn(name = "CSH_CHB_ID", referencedColumnName = "CHB_ID")
     private CharacterBuilt characterBuilt;
 
     @ManyToOne
