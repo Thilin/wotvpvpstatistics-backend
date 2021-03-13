@@ -8,4 +8,6 @@ public interface JobService {
 
     JobResponseDTO findById(Long id);
     List<JobResponseDTO> findAll();
+
+    List<JobResponseDTO> findByCharacterId(Long id);
 }

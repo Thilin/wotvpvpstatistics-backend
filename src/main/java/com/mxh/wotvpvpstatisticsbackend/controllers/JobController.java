@@ -38,4 +38,16 @@ public class JobController {
     public ResponseEntity<List<JobResponseDTO>> findAll(){
         return ResponseEntity.ok().body(jobService.findAll());
     }
+
+    @GetMapping(value = "/character/{id}", produces = "application/json")
+    @Operation(summary = "Find all jobs by character id", description = "Find all jobs that a character has")
+    public ResponseEntity<List<JobResponseDTO>> findJobsByCharacterId(@PathVariable Long id){
+        var dto = jobService.findByCharacterId(id);
+        if(dto == null){
+            return ResponseEntity.notFound().build();
+        }
+        else {
+            return ResponseEntity.ok().body(dto);
+        }
+    }
 }
