@@ -1,7 +1,6 @@
 package com.mxh.wotvpvpstatisticsbackend.models;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,19 +10,14 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_formation")
-@Builder
-public class Formation {
+@Table(name = "tb_confrontation_type")
+public class ConfrontationType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FMT_ID")
+    @Column(name = "CTY_ID")
     private Long id;
 
-    @Column(name = "FMT_NAME")
-    private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "FMT_USR_ID", referencedColumnName = "USR_ID")
-    private User user;
+    @Column(name = "CTY_DESCRIPTION")
+    private String description;
 }

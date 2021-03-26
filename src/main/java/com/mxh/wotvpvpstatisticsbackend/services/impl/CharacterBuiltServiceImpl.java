@@ -77,11 +77,10 @@ public class CharacterBuiltServiceImpl implements CharacterBuiltService {
             characterBuiltJobRepository.save(characterBuiltJob);
         });
 
-        dto.getEquipmentsDTO().forEach(equipmentDTO ->{
+        dto.getEquipmentsId().forEach(id ->{
             var characterBuiltEquipment = new CharacterBuiltEquipment();
-            characterBuiltEquipment.setPlus(equipmentDTO.getPlus());
             characterBuiltEquipment.setCharacterBuilt(characterBuilt);
-            characterBuiltEquipment.setEquipment(equipmentRepository.findById(equipmentDTO.getEquipmentId()).orElseThrow(()-> new ObjectNotFoundException("Equipmento não encontrado")));
+            characterBuiltEquipment.setEquipment(equipmentRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Equipmento não encontrado")));
             characterBuiltEquipmentRepository.save(characterBuiltEquipment);
         });
 
@@ -198,7 +197,6 @@ public class CharacterBuiltServiceImpl implements CharacterBuiltService {
         var equipmentDTO = new EquipmentResponseDTO();
         equipmentDTO.setId(equipment.getId());
         equipmentDTO.setName(equipment.getName());
-        equipmentDTO.setPlus(characterBuiltEquipment.getPlus());
         equipmentDTO.setCategory(equipment.getEquipmentCategory().getDescription());
         equipmentDTO.setType(equipment.getEquipmentType().getDescription());
         equipmentDTO.setRarity(equipment.getRarity());

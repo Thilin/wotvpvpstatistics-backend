@@ -11,19 +11,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_formation")
 @Builder
-public class Formation {
+@Table(name = "tb_map")
+public class Map {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FMT_ID")
+    @Column(name = "MAP_ID")
     private Long id;
 
-    @Column(name = "FMT_NAME")
+    @Column(name = "MAP_NAME")
     private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "FMT_USR_ID", referencedColumnName = "USR_ID")
-    private User user;
 }

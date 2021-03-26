@@ -35,22 +35,20 @@ public class FormationServiceImpl implements FormationService {
         this.characterBuiltEquipmentRepository = characterBuiltEquipmentRepository;
     }
     @Override
-    @Transactional
     public Long create(FormationCreateDTO dto) {
         var formation = new Formation();
-        var formationCharacterBuilt = new FormationCharacterBuilt();
         var user = userRepository.findById(dto.getUserId()).orElseThrow(()-> new ObjectNotFoundException("Usuário não encontrado"));
 
-        formation.setAttack(true);
         formation.setUser(user);
         formation.setName(dto.getName());
         formationRepository.save(formation);
 
-        formationCharacterBuilt.setFormation(formation);
         dto.getCharacters().forEach(characterFormation->{
+            var formationCharacterBuilt = new FormationCharacterBuilt();
             var characterBuilt = characterBuiltRepository.findById(characterFormation.getCharacterBuiltId()).orElseThrow(()-> new ObjectNotFoundException("Build não encontrada"));
             formationCharacterBuilt.setCharacterBuilt(characterBuilt);
-            formationCharacterBuilt.setOrder(characterFormation.getOrder());
+            formationCharacterBuilt.setPosition(characterFormation.getOrder());
+            formationCharacterBuilt.setFormation(formation);
             formationCharacterBuiltRepository.save(formationCharacterBuilt);
         });
         return formation.getId();

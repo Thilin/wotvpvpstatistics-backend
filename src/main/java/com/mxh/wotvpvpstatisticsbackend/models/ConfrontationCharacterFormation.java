@@ -11,19 +11,21 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_formation")
 @Builder
-public class Formation {
+@Table(name = "tb_confrontation_character_formation")
+public class ConfrontationCharacterFormation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FMT_ID")
+    @Column(name = "CCF_ID")
     private Long id;
 
-    @Column(name = "FMT_NAME")
-    private String name;
+    @Column(name = "CCF_CTR_NAME_1")
+    private String character1;
 
-    @ManyToOne
-    @JoinColumn(name = "FMT_USR_ID", referencedColumnName = "USR_ID")
-    private User user;
+    @Column(name = "CCF_CTR_NAME_2")
+    private String character2;
+
+    @Column(name = "CCF_CTR_NAME_3")
+    private String character3;
 }

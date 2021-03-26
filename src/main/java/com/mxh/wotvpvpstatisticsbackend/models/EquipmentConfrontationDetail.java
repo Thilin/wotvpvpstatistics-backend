@@ -7,23 +7,24 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_formation")
-@Builder
-public class Formation {
+@Table(name = "tb_equipment_confrontation_detail")
+public class EquipmentConfrontationDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FMT_ID")
+    @Column(name = "ECD_ID")
     private Long id;
 
-    @Column(name = "FMT_NAME")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "ECD_COD_ID")
+    private ConfrontationDetail confrontationDetail;
 
     @ManyToOne
-    @JoinColumn(name = "FMT_USR_ID", referencedColumnName = "USR_ID")
-    private User user;
+    @JoinColumn(name = "ECD_EQP_ID")
+    private Equipment equipment;
 }

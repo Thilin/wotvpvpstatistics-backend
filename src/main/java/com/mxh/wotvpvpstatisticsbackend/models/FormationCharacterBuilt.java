@@ -18,8 +18,8 @@ public class FormationCharacterBuilt {
     @Column(name = "FCB_ID")
     private Long id;
 
-    @Column(name = "FCB_ORDER")
-    private Long order;
+    @Column(name = "FCB_POSITION")
+    private Long position;
 
     @ManyToOne
     @JoinColumn(name = "FCB_FMT_ID")

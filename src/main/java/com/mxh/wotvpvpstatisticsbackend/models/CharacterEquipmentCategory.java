@@ -8,22 +8,23 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tb_formation")
-@Builder
-public class Formation {
+@Table(name = "tb_character_equipment_category")
+public class CharacterEquipmentCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "FMT_ID")
+    @Column(name = "CEC_ID")
     private Long id;
 
-    @Column(name = "FMT_NAME")
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "CEC_CTR_ID")
+    private Character character;
 
     @ManyToOne
-    @JoinColumn(name = "FMT_USR_ID", referencedColumnName = "USR_ID")
-    private User user;
+    @JoinColumn(name = "CEC_ECA_ID")
+    private EquipmentCategory equipmentCategory;
 }

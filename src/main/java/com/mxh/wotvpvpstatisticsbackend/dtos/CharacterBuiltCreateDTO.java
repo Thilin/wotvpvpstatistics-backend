@@ -19,7 +19,7 @@ public class CharacterBuiltCreateDTO {
     private Long userId;
     private Long esperId;
     private Long reactionId;
-    private List<CharacterBuiltEquipmentDTO> equipmentsDTO;
+    private List<Long> equipmentsId;
     private List<Long> supportAbilitiesId;
     private List<Long> jobsId;
 }

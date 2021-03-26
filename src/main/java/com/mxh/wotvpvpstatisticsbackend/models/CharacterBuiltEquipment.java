@@ -17,9 +17,6 @@ public class CharacterBuiltEquipment {
     @Column(name = "CHE_ID")
     private Long id;
 
-    @Column(name = "CHE_PLUS")
-    private Long plus;
-
     @ManyToOne
     @JoinColumn(name = "CHE_EQP_ID")
     private Equipment equipment;
