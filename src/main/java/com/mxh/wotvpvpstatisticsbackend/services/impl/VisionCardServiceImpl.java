@@ -24,6 +24,7 @@ public class VisionCardServiceImpl implements VisionCardService {
         dto.setId(visionCard.getId());
         dto.setName(visionCard.getName());
         dto.setImage(visionCard.getImage());
+
         return dto;
     }
 

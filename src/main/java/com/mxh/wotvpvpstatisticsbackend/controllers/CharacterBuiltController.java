@@ -47,4 +47,11 @@ public class CharacterBuiltController {
     public ResponseEntity<List<CharacterBuiltResponseDTO>> findAll(@PathVariable Long id){
         return ResponseEntity.ok().body(characterBuiltService.findAllByUserId(id));
     }
+
+    @PutMapping(value = "/{buildId}")
+    @Operation(summary = "Update a characterBuild by Id", description = "Update a character build by Id")
+    public ResponseEntity<Void> update(@PathVariable Long buildId, @RequestBody CharacterBuiltCreateDTO dto){
+        characterBuiltService.update(buildId, dto);
+        return ResponseEntity.ok().build();
+    }
 }

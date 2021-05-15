@@ -22,7 +22,7 @@ public class EsperController {
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
-    @Operation(summary = "Find a character by id", description = "Find a character using its id")
+    @Operation(summary = "Find an esper by id", description = "Find an esper using its id")
     public ResponseEntity<EsperResponseDTO> findById(@PathVariable Long id){
         var dto = esperService.findById(id);
         if(dto == null){
@@ -34,7 +34,7 @@ public class EsperController {
     }
 
     @GetMapping(value = "/all", produces = "application/json")
-    @Operation(summary = "show all characters", description = "Show all characters informations")
+    @Operation(summary = "show all espers", description = "Show all espers informations")
     public ResponseEntity<List<EsperResponseDTO>> findAll(){
         return ResponseEntity.ok().body(esperService.findAll());
     }

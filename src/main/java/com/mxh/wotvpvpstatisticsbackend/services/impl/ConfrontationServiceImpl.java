@@ -1,6 +1,8 @@
 package com.mxh.wotvpvpstatisticsbackend.services.impl;
 
 import com.mxh.wotvpvpstatisticsbackend.dtos.ConfrontationDTO;
+import com.mxh.wotvpvpstatisticsbackend.dtos.ConfrontationReportDTO;
+import com.mxh.wotvpvpstatisticsbackend.dtos.ConfrontationTeamsDTO;
 import com.mxh.wotvpvpstatisticsbackend.exceptions.ObjectNotFoundException;
 import com.mxh.wotvpvpstatisticsbackend.models.Confrontation;
 import com.mxh.wotvpvpstatisticsbackend.models.ConfrontationCharacterFormation;
@@ -12,6 +14,7 @@ import com.mxh.wotvpvpstatisticsbackend.services.ConfrontationService;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +28,12 @@ public class ConfrontationServiceImpl implements ConfrontationService {
     UserRepository userRepository;
     SeasonRepository seasonRepository;
     ConfrontationDetailService confrontationDetailService;
+    CharacterRepository characterRepository;
 
     ConfrontationServiceImpl(ConfrontationRepository confrontationRepository, ConfrontationCharacterFormationRepository confrontationCharacterFormationRepository,
                              FormationRepository formationRepository, FormationCharacterBuiltRepository formationCharacterBuiltRepository,
-                             UserRepository userRepository, SeasonRepository seasonRepository, ConfrontationDetailService confrontationDetailService){
+                             UserRepository userRepository, SeasonRepository seasonRepository, ConfrontationDetailService confrontationDetailService,
+                             CharacterRepository characterRepository){
         this.confrontationRepository = confrontationRepository;
         this.confrontationCharacterFormationRepository = confrontationCharacterFormationRepository;
         this.formationRepository = formationRepository;
@@ -36,6 +41,7 @@ public class ConfrontationServiceImpl implements ConfrontationService {
         this.userRepository = userRepository;
         this.seasonRepository = seasonRepository;
         this.confrontationDetailService = confrontationDetailService;
+        this.characterRepository = characterRepository;
     }
 
     @Override
@@ -67,6 +73,40 @@ public class ConfrontationServiceImpl implements ConfrontationService {
         confrontationDetailService.createDetails(confrontation);
 
         return confrontation.getId();
+    }
+
+    @Override
+    public List<ConfrontationTeamsDTO> findAll() {
+        List<ConfrontationCharacterFormation> teams = confrontationCharacterFormationRepository.findAll();
+        List<ConfrontationTeamsDTO> teamsDTOS = new ArrayList<>();
+        teams.forEach(team ->{
+            var character1 = characterRepository.findByName(team.getCharacter1());
+            var character2 = characterRepository.findByName(team.getCharacter2());
+            var character3 = characterRepository.findByName(team.getCharacter3());
+            var teamDTO = new ConfrontationTeamsDTO();
+            teamDTO.setId(team.getId());
+            teamDTO.setCharacter1(character1.getImage());
+            teamDTO.setCharacter2(character2.getImage());
+            teamDTO.setCharacter3(character3.getImage());
+            teamsDTOS.add(teamDTO);
+        });
+        return teamsDTOS;
+    }
+
+    @Override
+    public List<ConfrontationReportDTO> findAllBySeasonId(Long seasonId) {
+        List<ConfrontationReportDTO> dtos = new ArrayList<>();
+        List<Confrontation> confrontations = confrontationRepository.findBySeasonId(seasonId);
+        confrontations.forEach(confrontation -> {
+            var dto = new ConfrontationReportDTO();
+            dto.setCharacter1(confrontation.getConfrontationCharacterFormation().getCharacter1());
+            dto.setCharacter2(confrontation.getConfrontationCharacterFormation().getCharacter2());
+            dto.setCharacter3(confrontation.getConfrontationCharacterFormation().getCharacter3());
+            dto.setId(confrontation.getId());
+            dto.setWin(confrontation.isWin());
+            dtos.add(dto);
+        });
+        return dtos;
     }
 
     private ConfrontationCharacterFormation createConfrontationCharacterFormation(String char1, String char2, String char3) {

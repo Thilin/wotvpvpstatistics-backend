@@ -185,6 +185,51 @@ public class CharacterBuiltServiceImpl implements CharacterBuiltService {
         }
     }
 
+    @Override
+    public void update(Long userId, CharacterBuiltCreateDTO dto) {
+        var user = userRepository.findById(userId).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
+        var build = characterBuiltRepository.findById(dto.getUserId()).orElseThrow(() -> new ObjectNotFoundException("Build não encontrada"));
+        if(build.getUser() != user){
+            throw new ObjectNotFoundException("User é diferente");
+        }
+        else{
+            var esper = esperRepository.findById(dto.getEsperId()).orElseThrow(()-> new ObjectNotFoundException("Esper não encontrado"));
+            var reaction = reactionRepository.findById(dto.getReactionId()).orElseThrow(()-> new ObjectNotFoundException("Reaction não encontrada"));
+            var visionCard = visionCardRepository.findById(dto.getVisionCardId()).orElseThrow(()-> new ObjectNotFoundException("Vision card não encontrada"));
+            var character = characterRepository.findById(dto.getCharacterId()).orElseThrow(()-> new ObjectNotFoundException("Personagem não encontrado"));
+            build.setUser(user);
+            build.setEsper(esper);
+            build.setReaction(reaction);
+            build.setVisionCard(visionCard);
+            build.setCharacter(character);
+            build.setName(dto.getName());
+            characterBuiltRepository.save(build);
+
+            dto.getJobsId().forEach(jobId ->{
+                var characterBuiltJob = new CharacterBuiltJob();
+                var characterJob = characterJobRepository.findByCharacterIdAndJobId(character.getId(),jobId).orElseThrow(()-> new ObjectNotFoundException("Job não encontrado"));
+                characterBuiltJob.setCharacterBuilt(build);
+                characterBuiltJob.setCharacterJob(characterJob);
+                characterBuiltJob.setMain(characterJob.isMain());
+                characterBuiltJobRepository.save(characterBuiltJob);
+            });
+
+            dto.getEquipmentsId().forEach(id ->{
+                var characterBuiltEquipment = new CharacterBuiltEquipment();
+                characterBuiltEquipment.setCharacterBuilt(build);
+                characterBuiltEquipment.setEquipment(equipmentRepository.findById(id).orElseThrow(()-> new ObjectNotFoundException("Equipmento não encontrado")));
+                characterBuiltEquipmentRepository.save(characterBuiltEquipment);
+            });
+
+            dto.getSupportAbilitiesId().forEach(supportId->{
+                var characterBuiltSupportAbility = new CharacterBuiltSupportAbility();
+                characterBuiltSupportAbility.setCharacterBuilt(build);
+                characterBuiltSupportAbility.setSupportAbility(supportAbilityRepository.findById(supportId).orElseThrow(()->new ObjectNotFoundException("Support Ability não encontrada")));
+                characterBuiltSupportAbilityRepository.save(characterBuiltSupportAbility);
+            });
+        }
+    }
+
     private SupportAbilityResponseDTO getSupportAbilityResponseDTO(CharacterBuiltSupportAbility characterBuiltSupportAbility) {
         var supportAbilityDTO = new SupportAbilityResponseDTO();
         supportAbilityDTO.setId(characterBuiltSupportAbility.getSupportAbility().getId());

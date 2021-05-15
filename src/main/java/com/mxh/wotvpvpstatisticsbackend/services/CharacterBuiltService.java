@@ -12,4 +12,6 @@ public interface CharacterBuiltService {
     CharacterBuiltResponseDTO findById(Long id);
 
     List<CharacterBuiltResponseDTO> findAllByUserId(Long id);
+
+    void update (Long userId, CharacterBuiltCreateDTO dto);
 }
