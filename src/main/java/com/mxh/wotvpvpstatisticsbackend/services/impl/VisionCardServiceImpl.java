@@ -2,6 +2,7 @@ package com.mxh.wotvpvpstatisticsbackend.services.impl;
 
 import com.mxh.wotvpvpstatisticsbackend.dtos.VisionCardResponseDTO;
 import com.mxh.wotvpvpstatisticsbackend.exceptions.ObjectNotFoundException;
+import com.mxh.wotvpvpstatisticsbackend.mappers.VisionCardMapper;
 import com.mxh.wotvpvpstatisticsbackend.repositories.VisionCardRepository;
 import com.mxh.wotvpvpstatisticsbackend.services.VisionCardService;
 import org.springframework.stereotype.Service;
@@ -20,12 +21,7 @@ public class VisionCardServiceImpl implements VisionCardService {
     @Override
     public VisionCardResponseDTO findById(Long id) {
         var visionCard = visionCardRepository.findById(id).orElseThrow(()->new ObjectNotFoundException("Visioncard não encontrada"));
-        var dto = new VisionCardResponseDTO();
-        dto.setId(visionCard.getId());
-        dto.setName(visionCard.getName());
-        dto.setImage(visionCard.getImage());
-
-        return dto;
+        return VisionCardMapper.INSTANCE.convertToDTO(visionCard);
     }
 
     @Override
